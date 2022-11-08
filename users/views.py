@@ -1,5 +1,4 @@
-from django.contrib import messages
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
@@ -41,9 +40,8 @@ class LoginView(View):
         if login_form.is_valid():
             user = login_form.get_user()
             login(request, user)
-            messages.success(request, 'You are successfully logged in.')
 
-            return redirect('book_list')
+            return redirect('landing_page')
         else:
             return render(request, 'users/login.html', {'login_form': login_form})
 
@@ -51,10 +49,3 @@ class LoginView(View):
 class ProfileView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'users/profile.html', {'user': request.user})
-
-
-class LogoutView(View):
-    def get(self, request):
-        logout(request)
-        messages.info(request, 'You are successfully logged out.')
-        return redirect('landing_page')
