@@ -113,3 +113,25 @@ class LoginTestCase(TestCase):
         )
         user = get_user(self.client)
         self.assertFalse(user.is_authenticated)
+
+
+class ProfileTestCase(TestCase):
+    def test_login_required(self):
+        response = self.client.get(reverse('profile'))
+
+        self.assertEqual(response.url, reverse('login') + '?next=/users/profile/')
+
+    def test_profile_details(self):
+        user = User.objects.create_user(username='test_user', first_name='Test', last_name='User',
+                                        email='test@user.com')
+        user.set_password('somepassword')
+        user.save()
+
+        self.client.login(username='test_user', password='somepassword')
+
+        response = self.client.get(reverse('profile'))
+
+        self.assertContains(response, user.username)
+        self.assertContains(response, user.first_name)
+        self.assertContains(response, user.last_name)
+        self.assertContains(response, user.email)
