@@ -3,8 +3,6 @@
 {% block title %}{{ book.title }}{% endblock title %}
 
 {% block content %}
-    <h1>Book detail page</h1>
-
-    <h3>{{ book.title }}</h3>
-    <p>{{ book.description }}</p>
+    <h1 class='mb-3'>{{ book.title }}</h1>
+    <p class='fs-5'>{{ book.description }}</p>
 {% endblock content %}

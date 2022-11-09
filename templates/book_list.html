@@ -3,10 +3,10 @@
 {% block title %}Books{% endblock title %}
 
 {% block content %}
-    <h1>Book list page</h1>
+    <h1 class='mb-3'>Book list page</h1>
 
     {% if books %}
-        <ul>
+        <ul class='list-unstyled fs-4'>
             {% for book in books %}
                 <li><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></li>
             {% endfor %}

@@ -3,10 +3,11 @@
 {% block title %}Login{% endblock title %}
 
 {% block content %}
-    <h1>Login Page</h1>
+    <h1 class='mb-3'>Login Page</h1>
 
     <form method="post">{% csrf_token %}
         {{ login_form.as_p }}
-        <button type="submit">Kirish</button>
+        <button type="submit" class='btn btn-primary me-2'>Login</button>
+        <a class='link-secondary' href="{% url 'register' %}">Sign Up</a>
     </form>
 {% endblock content %}
