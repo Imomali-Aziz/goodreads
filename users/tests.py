@@ -128,7 +128,7 @@ class ProfileTestCase(TestCase):
 
     def test_profile_details(self):
         user = CustomUser.objects.create_user(username='test_user', first_name='Test', last_name='User',
-                                        email='test@user.com')
+                                              email='test@user.com')
         user.set_password('somepassword')
         user.save()
 
@@ -143,7 +143,7 @@ class ProfileTestCase(TestCase):
 
     def test_update_profile(self):
         user = CustomUser.objects.create_user(username='test_user', first_name='Test', last_name='User',
-                                        email='test@user.com')
+                                              email='test@user.com')
         user.set_password('somepassword')
         user.save()
         self.client.login(username='test_user', password='somepassword')
@@ -151,10 +151,10 @@ class ProfileTestCase(TestCase):
         response = self.client.post(
             reverse('profile_edit'),
             data={
-                'username':'test_user',
-                'first_name':'John',
-                'last_name':'Doe',
-                'email':'john@doe.com'
+                'username': 'test_user',
+                'first_name': 'John',
+                'last_name': 'Doe',
+                'email': 'john@doe.com'
             }
         )
         user.refresh_from_db()

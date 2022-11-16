@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1>Profile Update page</h1>
-    <form method="post">{% csrf_token %}
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
         {{ update_form.as_p }}
         <button class="btn btn-primary" type="submit">Save changes</button>
     </form>
