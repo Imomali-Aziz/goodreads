@@ -3,15 +3,21 @@
 {% block title %}Books{% endblock title %}
 
 {% block content %}
-    <h1 class='mb-3'>Book list page</h1>
+    <h2 class='mb-3'>Book list page</h2>
 
-    {% if books %}
-        <ul class='list-unstyled fs-4'>
-            {% for book in books %}
-                <li><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></li>
-            {% endfor %}
-        </ul>
-    {% else %}
+        {% if books %}
+                {% for book in books %}
+                <div class="row mb-3">
+                    <div class="col-2">
+                        <img src="{{ book.cover_picture.url }}" alt="Book cover photo" class="img-fluid">
+                    </div>
+                    <div class="col-8">
+                        <h4><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></h4>
+                        <p>{{ book.description | slice:400 }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+        {% else %}
         <p>No books found.</p>
     {% endif %}
 {% endblock content %}
