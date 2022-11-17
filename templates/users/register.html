@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}Register{% endblock title %}
 
 {% block content %}
-    <h1>Register Page</h1>
+    <h3>Register</h3>
+    <div class="row">
+        <div class="col-6">
+            <form method='post' action="{% url 'register' %}">{% csrf_token %}
+                {{ form | crispy }}
 
-    <form method='post' action="{% url 'register' %}">{% csrf_token %}
-        {{ form.as_p }}
+                <button type='submit' class='btn btn-success'>Submit</button>
+            </form>
+        </div>
+    </div>
 
-        <button type='submit' class='btn btn-success'>Submit</button>
-    </form>
 {% endblock content %}

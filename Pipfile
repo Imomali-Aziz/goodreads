@@ -7,6 +7,7 @@ name = "pypi"
 django = "~=4.1.0"
 psycopg2 = "*"
 pillow = "*"
+crispy-bootstrap5 = "*"
 
 [dev-packages]
 

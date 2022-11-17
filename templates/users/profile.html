@@ -3,7 +3,7 @@
 {% block title %}Profile page{% endblock title %}
 
 {% block content %}
-    <h1 class='mb-3 heading'>Profile Page</h1>
+    <h3 class='mb-3 heading'>Profile Page</h3>
     <img src="{{ user.profile_picture.url }}" alt="profile picture" class="img-fluid col-2 rounded-circle">
     <a class="mb-2 d-block" href="{% url 'profile_edit' %}">Edit profile</a>
     <p>Username: {{ user.username }}</p>
