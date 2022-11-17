@@ -3,6 +3,14 @@
 {% block title %}{{ book.title }}{% endblock title %}
 
 {% block content %}
-    <h1 class='mb-3'>{{ book.title }}</h1>
-    <p class='fs-5'>{{ book.description }}</p>
+<div class="row">
+    <div class="col-3">
+        <img src="{{ book.cover_picture.url }}" alt="Book cover" class="img-fluid">
+    </div>
+    <div class="col-9">
+        <h1 class='mb-3'>{{ book.title }}</h1>
+        <p class='fs-5'>{{ book.description }}</p>
+    </div>
+</div>
+
 {% endblock content %}
