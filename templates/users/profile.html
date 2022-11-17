@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1 class='mb-3 heading'>Profile Page</h1>
-    <img src="{{ user.profile_picture.url }}" alt="" class="img-fluid col-2 rounded-circle">
+    <img src="{{ user.profile_picture.url }}" alt="profile picture" class="img-fluid col-2 rounded-circle">
     <a class="mb-2 d-block" href="{% url 'profile_edit' %}">Edit profile</a>
     <p>Username: {{ user.username }}</p>
     <p>First Name: {{ user.first_name }}</p>
