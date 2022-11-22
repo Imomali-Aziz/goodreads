@@ -3,7 +3,17 @@
 {% block title %}Books{% endblock title %}
 
 {% block content %}
-    <h2 class='mb-3'>Book list page</h2>
+    <div class="row mb-3 justify-content-between">
+        <div class="col-4">
+            <h2>Book list page</h2>
+        </div>
+        <div class="col-4">
+            <form class='d-flex'>
+                <input type="search" class='form-control me-2' placeholder='Search' value='{{ search_query }}' name="q">
+                <button type="submit" class='btn btn-success'>Search</button>
+            </form>
+        </div>
+    </div>
 
         {% if page_obj %}
             {% for book in page_obj.object_list %}

@@ -15,13 +15,15 @@ class BookTestCase(TestCase):
         book2 = Book.objects.create(title='Book2', description='Description2', isbn='32837812')
         book3 = Book.objects.create(title='Book3', description='Description3', isbn='44782829')
 
-        response = self.client.get(reverse('book_list'))
+        response = self.client.get(reverse('book_list') + '?page_size=2')
 
         for book in [book1, book2]:
             self.assertContains(response, book.title)
+        self.assertNotContains(response, book3.title)
 
-        response = self.client.get(reverse('book_list') + '?page=2')
+        response = self.client.get(reverse('book_list') + '?page=2&page_size=2')
         self.assertContains(response, book3.title)
+        
 
     def test_book_detail(self):
         book = Book.objects.create(title='Book1', description='Description1', isbn='12389744')
@@ -29,3 +31,23 @@ class BookTestCase(TestCase):
         response = self.client.get(reverse('book_detail', kwargs={'id': book.id}))
         self.assertContains(response, book.title)
         self.assertContains(response, book.description)
+        
+    def test_book_search(self):
+        book1 = Book.objects.create(title='skateboard', description='Description1', isbn='12389744')
+        book2 = Book.objects.create(title='cat', description='Description2', isbn='32837812')
+        book3 = Book.objects.create(title='macbook', description='Description3', isbn='44782829')
+        
+        response = self.client.get(reverse('book_list') + '?q=skateboard')
+        self.assertContains(response, book1.title)
+        self.assertNotContains(response, book2.title)
+        self.assertNotContains(response, book3.title)
+        
+        response = self.client.get(reverse('book_list') + '?q=cat')
+        self.assertContains(response, book2.title)
+        self.assertNotContains(response, book1.title)
+        self.assertNotContains(response, book3.title)
+        
+        response = self.client.get(reverse('book_list') + '?q=macbook')
+        self.assertContains(response, book3.title)
+        self.assertNotContains(response, book1.title)
+        self.assertNotContains(response, book2.title)
