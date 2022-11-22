@@ -4,7 +4,12 @@ from .models import Book, Author, BookAuthor, Review
 
 class BookAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description')
-    list_display = ('title', 'description', 'isbn')
+    list_display = ('image_tag', 'title', 'get_description', 'isbn')
+    readonly_fields = ['image_tag']
+    
+    def get_description(self, obj):
+        return obj.description[:200]
+    get_description.short_description = "description"
 
 
 class AuthorAdmin(admin.ModelAdmin):

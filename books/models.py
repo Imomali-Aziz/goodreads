@@ -1,5 +1,6 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.utils.html import mark_safe
 from users.models import CustomUser
 
 
@@ -8,6 +9,10 @@ class Book(models.Model):
     description = models.TextField()
     isbn = models.CharField(max_length=17)
     cover_picture = models.ImageField(default='default_cover.webp')
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="150" height="auto" />' % (self.cover_picture.url))
+        image_tag.short_description = 'Image'
 
     def __str__(self):
         return self.title

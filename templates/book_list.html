@@ -5,18 +5,42 @@
 {% block content %}
     <h2 class='mb-3'>Book list page</h2>
 
-        {% if books %}
-                {% for book in books %}
+        {% if page_obj %}
+            {% for book in page_obj.object_list %}
                 <div class="row mb-3">
                     <div class="col-2">
                         <img src="{{ book.cover_picture.url }}" alt="Book cover photo" class="img-fluid">
                     </div>
                     <div class="col-8">
                         <h4><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></h4>
-                        <p>{{ book.description | slice:400 }}</p>
+                        <p>{{ book.description | slice:400 }}...</p>
                     </div>
                 </div>
-                {% endfor %}
+            {% endfor %}
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    {% if page_obj.has_previous %}
+                        <li class="page-item">
+                          <a class="page-link" href="?page=1" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+                    {% endif %}
+
+                        <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+
+                    {% if page_obj.has_next %}
+                        <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+                        <li class="page-item">
+                          <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                    {% endif %}
+              </ul>
+            </nav>
         {% else %}
         <p>No books found.</p>
     {% endif %}
