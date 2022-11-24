@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}All reviews{% endblock title %}
+
+{% block content %}
+    <h3 class="mb-3">All reviews</h3>
+
+    {% for review in page_obj %}
+			<div class="card mb-3 col-10">
+				<div class="row g-0">
+					<div class="col-md-8 order-md-1">
+						<div class="card-body">
+							<div class="card-title row align-items-center">
+								<img src="{{ review.user_id.profile_picture.url }}" class='img-fluid rounded-circle col-2' alt="user profile picture">
+								<div class="col-10 ps-0">
+									<h5><b>{{ review.user_id.username }}</b> rated it {{ review.stars_given }} stars</h5>
+									<p class="card-text"><small class="text-muted">{{ review.created_at }}</small></p>
+								</div>
+							</div>
+							<p class="card-text ms-2">{{ review.review_text }}</p>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<a href="{% url 'book_detail' review.book_id.id %}">
+							<img src="{{ review.book_id.cover_picture.url }}" class="img-fluid rounded-start" alt="Book cover picture">
+						</a>
+					</div>
+				</div>
+			</div>
+    {% endfor %}
+
+	<nav aria-label="Page navigation example">
+		<ul class="pagination">
+			{% if page_obj.has_previous %}
+				<li class="page-item">
+				  <a class="page-link" href="?page=1" aria-label="Previous">
+					<span aria-hidden="true">&laquo;</span>
+				  </a>
+				</li>
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+			{% endif %}
+
+				<li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+
+			{% if page_obj.has_next %}
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>
+				<li class="page-item">
+				  <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
+					<span aria-hidden="true">&raquo;</span>
+				  </a>
+				</li>
+			{% endif %}
+	  </ul>
+	</nav>
+
+{% endblock content %}

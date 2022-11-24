@@ -23,8 +23,11 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav mb-2 mb-lg-0">
+                <a class="nav-link" aria-current="page" href="{% url 'home_page' %}">Home</a>
+            </ul>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <a class="nav-link active" aria-current="page" href="{% url 'book_list' %}">Books</a>
+                <a class="nav-link" aria-current="page" href="{% url 'book_list' %}">Books</a>
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
