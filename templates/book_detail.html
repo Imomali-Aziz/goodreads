@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block title %}{{ book.title }}{% endblock title %}
 
@@ -14,23 +15,34 @@
 </div>
 
 <div class="reviews">
-    <h2>Reviews</h2>
-    <hr>
-    {% for review in book.review_set.all %}
-    <div class="row">
-        <div class="col-1">
-            <img src="{{ review.user_id.profile_picture.url }}" class='img-fluid' alt="Profile picture" >
-        </div>
+    <div class="row mb-4">
+        <h3 class="col-12">Add review</h3>
         <div class="col-9">
-            <p>
-                <span class="fw-semibold">{{ review.user_id.username }}</span> rated it {{ review.stars_given }} stars <span class="fw-lighter">{{ review.created_at }}</span>
-            </p>
-            <p class='fw-weight-light'>
-                {{ review.review_text }}
-            </p>
+            <form method='post' action="{% url 'book_review' book.id %}">{% csrf_token %}
+                {{ review_form|crispy }}
+                <button class="btn btn-primary">Submit</button>
+            </form>
         </div>
     </div>
-    {% endfor %}
+    {% if book.review_set.exists %}
+        <h2>Reviews</h2>
+        <hr class="col-9">
+        {% for review in book.review_set.all %}
+        <div class="row mb-2">
+            <div class="col-1">
+                <img src="{{ review.user_id.profile_picture.url }}" class='img-fluid' alt="Profile picture" >
+            </div>
+            <div class="col-8">
+                <p>
+                    <span class="fw-semibold">{{ review.user_id.username }}</span> rated it {{ review.stars_given }} stars <span class="fw-lighter">{{ review.created_at }}</span>
+                </p>
+                <p class='fw-weight-light'>
+                    {{ review.review_text }}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
 </div>
 
 {% endblock content %}

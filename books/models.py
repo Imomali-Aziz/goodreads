@@ -42,7 +42,7 @@ class Review(models.Model):
     stars_given = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     user_id = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     book_id = models.ForeignKey(Book, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(default=timezone.now())
+    created_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return f"{self.stars_given} stars given to {self.book_id.title} from {self.user_id.username}"

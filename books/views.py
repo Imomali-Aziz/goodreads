@@ -1,10 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core import paginator
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
 from django.views.generic import ListView, DetailView
 
-from books.models import Book
+from books.forms import ReviewCreateForm
+from books.models import Book, Review
 
 
 # class BookListView(ListView):
@@ -30,12 +33,30 @@ class BookListView(View):
         return render(request, 'book_list.html', {'page_obj': page_obj, 'search_query': search_query})
 
 
-class BookDetailView(DetailView):
-    template_name = 'book_detail.html'
-    pk_url_kwarg = 'id'
-    model = Book
+# class BookDetailView(DetailView):
+#     template_name = 'book_detail.html'
+#     pk_url_kwarg = 'id'
+#     model = Book
 
-# class BookDetailView(View):
-#     def get(self, request, id):
-#         book = Book.objects.get(id=id)
-#         return render(request, 'book_detail.html', {'book': book})
+class BookDetailView(View):
+    def get(self, request, id):
+        book = Book.objects.get(id=id)
+        review_form = ReviewCreateForm()
+        return render(request, 'book_detail.html', {'book': book, 'review_form': review_form})
+
+
+class AddReviewView(LoginRequiredMixin, View):
+    def post(self, request, id):
+        book = Book.objects.get(id=id)
+        review_form = ReviewCreateForm(data=request.POST)
+
+        if review_form.is_valid():
+            Review.objects.create(
+                book_id=book,
+                user_id=request.user,
+                stars_given=review_form.cleaned_data['stars_given'],
+                review_text=review_form.cleaned_data['review_text']
+            )
+            return redirect(reverse('book_detail', kwargs={'id': book.id}))
+
+        return render(request, 'book_detail.html', {'book': book, 'review_form': review_form})
