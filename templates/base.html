@@ -1,4 +1,8 @@
 {% load static %}
+{% url 'home_page' as home_page_url %}
+{% url 'book_list' as book_list_url %}
+{% url 'profile' as profile_page_url %}
+{% url 'profile_edit' as profile_edit_url %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -24,21 +28,26 @@
 
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav mb-2 mb-lg-0">
-                <a class="nav-link" aria-current="page" href="{% url 'home_page' %}">Home</a>
+                <a class="nav-link {% if request.path == home_page_url %} active {% endif %}" aria-current="page" href="{{ home_page_url }}">Home</a>
             </ul>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <a class="nav-link" aria-current="page" href="{% url 'book_list' %}">Books</a>
+                <a class="nav-link {% if request.path == book_list_url %} active {% endif %}" aria-current="page" href="{{ book_list_url }}">Books</a>
             </ul>
             <ul class="navbar-nav">
                 {% if user.is_authenticated %}
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle {% if request.path == profile_page_url or request.path == profile_edit_url %} active {% endif %}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     {{ request.user.username }}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                     <li>
-                        <a class="dropdown-item" href="{% url 'profile' %}" >Profile</a>
+                        <a class="dropdown-item" href="{{ profile_page_url }}" >Profile</a>
                     </li>
+                    {% if user.is_superuser %}
+                    <li>
+                        <a class="dropdown-item" href="/admin/">Adminstration</a>
+                    </li>
+                    {% endif %}
                     <li>
                         <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                     </li>
