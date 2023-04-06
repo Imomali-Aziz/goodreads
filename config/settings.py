@@ -146,3 +146,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = 'login'
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'imomaliibnabdulloh@gmail.com'
+EMAIL_HOST_PASSWORD = 'SgaGBMxBS3MUKit'
+EMAIL_PORT = 587
+EMAIL_USER_TLS = True
+EMAIL_USER_SSL = False
+
